@@ -20,6 +20,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.support.DefaultProducer;
 import org.eclipse.neoscada.protocol.iec60870.asdu.ASDUHeader;
+import org.eclipse.neoscada.protocol.iec60870.asdu.message.AbstractInformationObjectMessage;
 import org.eclipse.neoscada.protocol.iec60870.asdu.message.SetPointCommandScaledValue;
 import org.eclipse.neoscada.protocol.iec60870.asdu.message.SetPointCommandShortFloatingPoint;
 import org.eclipse.neoscada.protocol.iec60870.asdu.message.SingleCommand;
@@ -54,6 +55,10 @@ public class ClientProducer extends DefaultProducer {
 
     private Object mapToCommand(final Exchange exchange) {
         final Object body = exchange.getIn().getBody();
+
+        if (body instanceof AbstractInformationObjectMessage) {
+            return body;
+        }
 
         if (body instanceof Float || body instanceof Double) {
             return makeFloatCommand(((Number)body).floatValue());
