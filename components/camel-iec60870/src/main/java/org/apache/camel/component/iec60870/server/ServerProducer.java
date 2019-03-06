@@ -33,11 +33,11 @@ public class ServerProducer extends DefaultProducer {
 
     @Override
     public void process(final Exchange exchange) throws Exception {
-        final Value<?> value = mapToCommand(exchange);
+        final Value<?> value = mapToValue(exchange);
         this.server.notifyValue(this.endpoint.getAddress(), value);
     }
 
-    private Value<?> mapToCommand(final Exchange exchange) {
+    private Value<?> mapToValue(final Exchange exchange) {
         final Object body = exchange.getIn().getBody();
 
         if (body instanceof Value<?>) {
