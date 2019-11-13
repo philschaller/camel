@@ -18,11 +18,13 @@ package org.apache.camel.component.iec60870.client;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import io.netty.channel.ChannelHandlerContext;
+import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.DiscardAckModule;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
@@ -32,13 +34,16 @@ import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
 import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient;
 import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.ModulesFactory;
 import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.State;
-import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
 import org.eclipse.neoscada.protocol.iec60870.client.data.AbstractDataProcessor;
 import org.eclipse.neoscada.protocol.iec60870.client.data.DataHandler;
 import org.eclipse.neoscada.protocol.iec60870.client.data.DataModule;
 import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClientConnection {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ClientConnection.class);
 
     @FunctionalInterface
     public interface ValueListener {
@@ -83,28 +88,48 @@ public class ClientConnection {
     private final Map<ObjectAddress, Value<?>> lastValue = new HashMap<>();
     private final Map<ObjectAddress, ValueListener> listeners = new HashMap<>();
 
-    private final String host;
-    private final int port;
+    private final ConnectionId connectionId;
+    private Iterator<Map.Entry<String, Integer>> serverIterator;
     private final ClientOptions options;
 
     private AutoConnectClient client;
 
-    public ClientConnection(final String host, final int port, final ClientOptions options) {
-        this.host = host;
-        this.port = port;
+    public ClientConnection(final ConnectionId connectionId, final ClientOptions options) {
+        this.connectionId = connectionId;
         this.options = options;
     }
 
     public void start() {
         final DataModule dataModule = new DataModule(this.dataHandler, this.options.getDataModuleOptions());
         final ModulesFactory factory = () -> Arrays.asList(dataModule, new DiscardAckModule());
+
+        // Either start, restart at the beginning or take the next element
+        if (serverIterator == null || !serverIterator.hasNext()) {
+            this.serverIterator = this.connectionId.getServers().entrySet().iterator();
+        }
+
+        final Map.Entry<String, Integer> server = serverIterator.next();
+
+        LOG.info("Connect to '{}'.", server);
+
         final CountDownLatch latch = new CountDownLatch(1);
-        this.client = new AutoConnectClient(this.host, this.port, this.options.getProtocolOptions(), factory, new StateListener() {
-            @Override
-            public void stateChanged(final State state, final Throwable e) {
-                if (state == State.CONNECTED) {
-                    latch.countDown();
+
+        this.client = new AutoConnectClient(server.getKey(), server.getValue(), this.options.getProtocolOptions(), factory, (final State state, final Throwable e) -> {
+            if (state == State.DISCONNECTED) {
+                LOG.info("Close disconnected client. Restart in 10 s.");
+                client.close();
+
+                try {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException ex) {
+                    // ignore
                 }
+
+                start();
+            }
+
+            if (state == State.CONNECTED) {
+                latch.countDown();
             }
         });
         try {

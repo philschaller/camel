@@ -25,6 +25,7 @@ import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.Constants;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
+import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
 import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions;
 
 @Component("iec60870-client")
@@ -52,7 +53,7 @@ public class ClientComponent extends AbstractIecComponent<ClientConnectionMultip
 
     @Override
     protected ClientConnectionMultiplexor createConnection(final ConnectionId id, final ClientOptions options) {
-        return new ClientConnectionMultiplexor(new ClientConnection(id.getHost(), id.getPort(), options));
+        return new ClientConnectionMultiplexor(new ClientConnection(id, options));
     }
 
     /**
