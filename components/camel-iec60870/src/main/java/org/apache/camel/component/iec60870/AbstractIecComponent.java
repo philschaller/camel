@@ -153,12 +153,12 @@ public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> exten
         }
     }
 
-    private static ConnectionId parseConnectionId(final String fullUri, final Map<String, Object> parameters) {
+    static ConnectionId parseConnectionId(final String fullUri, final Map<String, Object> parameters) {
         final URI uri = URI.create(fullUri);
 
         final Object connectionId = parameters.get("connectionId");
 
-        return new ConnectionId(uri.getHost(), uri.getPort(), connectionId instanceof String ? (String)connectionId : null);
+        return new ConnectionId(uri.getAuthority(), connectionId instanceof String ? (String)connectionId : null);
     }
 
     private static ObjectAddress parseAddress(final String fullUri) {

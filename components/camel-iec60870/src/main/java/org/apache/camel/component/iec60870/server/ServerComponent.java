@@ -49,7 +49,8 @@ public class ServerComponent extends AbstractIecComponent<ServerConnectionMultip
     @Override
     protected ServerConnectionMultiplexor createConnection(final ConnectionId id, final ServerOptions options) {
         try {
-            return new ServerConnectionMultiplexor(new ServerInstance(id.getHost(), id.getPort(), options));
+            final Map.Entry<String, Integer> server = id.getServers().entrySet().iterator().next();
+            return new ServerConnectionMultiplexor(new ServerInstance(server.getKey(), server.getValue(), options));
         } catch (final UnknownHostException e) {
             throw new RuntimeException(e);
         }

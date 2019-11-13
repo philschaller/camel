@@ -16,37 +16,61 @@
  */
 package org.apache.camel.component.iec60870;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConnectionId {
-    private final String host;
 
-    private final int port;
-
+    private final String serverUrls;
     private final String connectionId;
+    private final Map<String, Integer> servers = new HashMap<>();
 
-    public ConnectionId(final String host, final int port, final String connectionId) {
-        Objects.requireNonNull(host);
+    public ConnectionId(final String serverUrls, final String connectionId) {
+        Objects.requireNonNull(serverUrls);
 
-        if (port <= 0) {
-            throw new IllegalArgumentException("Port must be greater than 0");
-        }
-
-        this.host = host;
-        this.port = port;
+        this.serverUrls = serverUrls;
         this.connectionId = connectionId;
+
+        parseServerUrls();
     }
 
-    public String getHost() {
-        return this.host;
-    }
-
-    public int getPort() {
-        return this.port;
+    public String getServerUrls() {
+        return this.serverUrls;
     }
 
     public String getConnectionId() {
         return this.connectionId;
+    }
+
+    public Map<String, Integer> getServers() {
+        return Collections.unmodifiableMap(this.servers);
+    }
+
+    final void parseServerUrls() {
+        String[] serverUrlTokens = serverUrls.split(",");
+
+        if (serverUrlTokens.length == 0) {
+            throw new IllegalArgumentException(String.format("At least one connection is mandatory in '%s'.", serverUrls));
+        }
+
+        for (String serverUrl : serverUrlTokens) {
+            String[] hostnameIp = serverUrl.split(":");
+
+            if (hostnameIp.length != 2) {
+                throw new IllegalArgumentException(String.format("Wrong format of hostname:ip '%s'.", serverUrl));
+            }
+
+            String host = hostnameIp[0];
+            Integer port = Integer.parseInt(hostnameIp[1]);
+
+            if (port <= 0) {
+                throw new IllegalArgumentException("Port must be greater than 0");
+            }
+
+            this.servers.put(host, port);
+        }
     }
 
     @Override
@@ -54,8 +78,7 @@ public class ConnectionId {
         final int prime = 31;
         int result = 1;
         result = prime * result + (this.connectionId == null ? 0 : this.connectionId.hashCode());
-        result = prime * result + (this.host == null ? 0 : this.host.hashCode());
-        result = prime * result + this.port;
+        result = prime * result + (this.serverUrls == null ? 0 : this.serverUrls.hashCode());
         return result;
     }
 
@@ -78,14 +101,11 @@ public class ConnectionId {
         } else if (!this.connectionId.equals(other.connectionId)) {
             return false;
         }
-        if (this.host == null) {
-            if (other.host != null) {
+        if (this.serverUrls == null) {
+            if (other.serverUrls != null) {
                 return false;
             }
-        } else if (!this.host.equals(other.host)) {
-            return false;
-        }
-        if (this.port != other.port) {
+        } else if (!this.serverUrls.equals(other.serverUrls)) {
             return false;
         }
         return true;
