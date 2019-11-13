@@ -22,50 +22,74 @@ import org.junit.Test;
 public class ConnectionIdTest {
     @Test
     public void testNotEqual1() {
-        ConnectionId id1 = new ConnectionId("host", 1202, "id1");
-        ConnectionId id2 = new ConnectionId("host", 1202, "id2");
+        ConnectionId id1 = new ConnectionId("host:1202", "id1");
+        ConnectionId id2 = new ConnectionId("host:1202", "id2");
         Assert.assertFalse("Must be different", id1.equals(id2));
     }
 
     @Test
     public void testNotEqual2() {
-        ConnectionId id1 = new ConnectionId("host1", 1202, "id");
-        ConnectionId id2 = new ConnectionId("host2", 1202, "id");
+        ConnectionId id1 = new ConnectionId("host1:1202", "id");
+        ConnectionId id2 = new ConnectionId("host2:1202", "id");
         Assert.assertFalse("Must be different", id1.equals(id2));
     }
 
     @Test
     public void testNotEqual3() {
-        ConnectionId id1 = new ConnectionId("host", 1202_1, "id");
-        ConnectionId id2 = new ConnectionId("host", 1202_2, "id");
+        ConnectionId id1 = new ConnectionId("host:12021", "id");
+        ConnectionId id2 = new ConnectionId("host:12022", "id");
         Assert.assertFalse("Must be different", id1.equals(id2));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegal1() {
-        new ConnectionId("host", -1, "id");
+        new ConnectionId("host:-1", "id");
     }
 
     @Test
     public void testGetters() {
-        ConnectionId id = new ConnectionId("host", 1202, "id");
-        Assert.assertEquals("host", id.getHost());
-        Assert.assertEquals(1202, id.getPort());
-        Assert.assertEquals("id", id.getConnectionId());
+        ConnectionId id = new ConnectionId("host:1202", "id");
+        Assert.assertEquals("host:1202", id.getServerUrls());
+        Assert.assertTrue("Must be equal", id.getServers().get("host").equals(1202));
+        Assert.assertTrue("Must be equal", id.getConnectionId().equals("id"));
     }
 
     @Test
     public void testEqual1() {
-        ConnectionId id1 = new ConnectionId("host", 1202, "id");
-        ConnectionId id2 = new ConnectionId("host", 1202, "id");
+        ConnectionId id1 = new ConnectionId("host:1202", "id");
+        ConnectionId id2 = new ConnectionId("host:1202", "id");
         Assert.assertTrue("Must be equal", id1.equals(id2));
     }
 
     @Test
     public void testEqual2() {
-        ConnectionId id1 = new ConnectionId("host", 1202, "id");
-        ConnectionId id2 = new ConnectionId("host", 1202, "id");
+        ConnectionId id1 = new ConnectionId("host:1202", "id");
+        ConnectionId id2 = new ConnectionId("host:1202", "id");
 
         Assert.assertTrue("Hash code must be equal", id1.hashCode() == id2.hashCode());
+    }
+
+    @Test
+    public void testMultipleServers() {
+        ConnectionId id = new ConnectionId("host1:1202,10.0.0.1:1203", "id");
+        Assert.assertEquals("host1:1202,10.0.0.1:1203", id.getServerUrls());
+        Assert.assertTrue("Must be equal", id.getServers().get("host1").equals(1202));
+        Assert.assertTrue("Must be equal", id.getServers().get("10.0.0.1").equals(1203));
+        Assert.assertTrue("Must be equal", id.getConnectionId().equals("id"));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testIllegalMissingServer_Null() {
+        ConnectionId id = new ConnectionId(null, "id");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalMissingServer_Blank() {
+        ConnectionId id = new ConnectionId("", "id");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalServerSeparator() {
+        ConnectionId id = new ConnectionId("host1:1202;10.0.0.1:1203", "id");
     }
 }
