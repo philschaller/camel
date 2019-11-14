@@ -19,6 +19,8 @@ public class ClientEndpointConfigurer extends PropertyConfigurerSupport implemen
         case "dataModuleOptions": target.getConnectionOptions().setDataModuleOptions(property(camelContext, org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions.class, value)); return true;
         case "protocoloptions":
         case "protocolOptions": target.getConnectionOptions().setProtocolOptions(property(camelContext, org.eclipse.neoscada.protocol.iec60870.ProtocolOptions.class, value)); return true;
+        case "statelistener":
+        case "stateListener": target.getConnectionOptions().setStateListener(property(camelContext, org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener.class, value)); return true;
         case "bridgeerrorhandler":
         case "bridgeErrorHandler": target.setBridgeErrorHandler(property(camelContext, boolean.class, value)); return true;
         case "exceptionhandler":

@@ -19,6 +19,8 @@ package org.apache.camel.component.iec60870.server;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.iec60870.AbstractIecComponent;
@@ -26,6 +28,7 @@ import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.Constants;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
+
 import org.eclipse.neoscada.protocol.iec60870.server.data.DataModuleOptions;
 
 @Component("iec60870-server")
@@ -47,7 +50,7 @@ public class ServerComponent extends AbstractIecComponent<ServerConnectionMultip
     }
 
     @Override
-    protected ServerConnectionMultiplexor createConnection(final ConnectionId id, final ServerOptions options) {
+    protected ServerConnectionMultiplexor createConnection(final ConnectionId id, final ServerOptions options, final StateListener stateListener) {
         try {
             final Map.Entry<String, Integer> server = id.getServers().entrySet().iterator().next();
             return new ServerConnectionMultiplexor(new ServerInstance(server.getKey(), server.getValue(), options));

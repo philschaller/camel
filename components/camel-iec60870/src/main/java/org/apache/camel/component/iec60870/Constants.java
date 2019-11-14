@@ -22,4 +22,6 @@ public interface Constants {
     String PARAM_PROTOCOL_OPTIONS = "protocolOptions";
 
     String PARAM_CONNECTION_OPTIONS = "connectionOptions";
+
+    String PARAM_STATE_LISTENER = "stateListener";
 }

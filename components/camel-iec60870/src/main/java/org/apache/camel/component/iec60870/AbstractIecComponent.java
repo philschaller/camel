@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 
 import static java.util.Objects.requireNonNull;
+import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
 
 public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> extends DefaultComponent {
 
@@ -52,7 +53,7 @@ public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> exten
         this.defaultConnectionOptions = defaultConnectionOptions;
     }
 
-    protected abstract T1 createConnection(ConnectionId id, T2 options);
+    protected abstract T1 createConnection(ConnectionId id, T2 options, StateListener stateListener);
 
     /**
      * Default connection options
@@ -132,6 +133,10 @@ public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> exten
             throw new IllegalArgumentException("Invalid URI: " + fullUri);
         }
 
+        // Remove this reference every time...
+        final StateListener listener = resolveAndRemoveReferenceParameter(
+            parameters, Constants.PARAM_STATE_LISTENER, StateListener.class);
+
         final ConnectionId id = parseConnectionId(fullUri, parameters);
 
         LOG.debug("parse connection - fullUri: {} -> {}", fullUri, id);
@@ -147,7 +152,7 @@ public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> exten
                 final T2 options = parseOptions(id, parameters);
                 LOG.debug("Creating new connection: {}", options);
 
-                connection = createConnection(id, options);
+                connection = createConnection(id, options, listener);
                 this.connections.put(id, connection);
             }
             return connection;
