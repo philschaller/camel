@@ -21,7 +21,9 @@ import java.util.Objects;
 import org.apache.camel.component.iec60870.BaseOptions;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
+
 import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
+import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
 import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions;
 
 @UriParams
@@ -32,6 +34,12 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
      */
     @UriParam(javaType = "org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions")
     private DataModuleOptions.Builder dataModuleOptions;
+
+    /**
+     * State listener
+     */
+    @UriParam(javaType = "org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener")
+    private StateListener stateListener;
 
     // dummy for doc generation
     /**
@@ -79,6 +87,10 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
         return this.dataModuleOptions.build();
     }
 
+    public StateListener getStateListener() {
+        return stateListener;
+    }
+
     @Override
     public ClientOptions copy() {
         return new ClientOptions(this);
@@ -109,5 +121,9 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public void setStateListener(StateListener stateListener) {
+        this.stateListener = stateListener;
     }
 }
