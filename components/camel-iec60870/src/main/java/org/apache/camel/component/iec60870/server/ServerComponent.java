@@ -27,6 +27,7 @@ import org.apache.camel.component.iec60870.Constants;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
 import org.eclipse.oneofour.server.data.DataModuleOptions;
+import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
 
 @Component("iec60870-server")
 public class ServerComponent extends AbstractIecComponent<ServerConnectionMultiplexor, ServerOptions> {
@@ -47,7 +48,7 @@ public class ServerComponent extends AbstractIecComponent<ServerConnectionMultip
     }
 
     @Override
-    protected ServerConnectionMultiplexor createConnection(final ConnectionId id, final ServerOptions options) {
+    protected ServerConnectionMultiplexor createConnection(final ConnectionId id, final ServerOptions options, final StateListener stateListener) {
         try {
             final Map.Entry<String, Integer> server = id.getServers().entrySet().iterator().next();
             return new ServerConnectionMultiplexor(new ServerInstance(server.getKey(), server.getValue(), options));

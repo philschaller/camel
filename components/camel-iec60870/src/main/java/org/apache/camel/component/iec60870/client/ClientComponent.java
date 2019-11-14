@@ -26,6 +26,7 @@ import org.apache.camel.component.iec60870.Constants;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
 import org.eclipse.oneofour.client.data.DataModuleOptions;
+import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
 
 @Component("iec60870-client")
 public class ClientComponent extends AbstractIecComponent<ClientConnectionMultiplexor, ClientOptions> {
@@ -51,8 +52,8 @@ public class ClientComponent extends AbstractIecComponent<ClientConnectionMultip
     }
 
     @Override
-    protected ClientConnectionMultiplexor createConnection(final ConnectionId id, final ClientOptions options) {
-        return new ClientConnectionMultiplexor(new ClientConnection(id, options));
+    protected ClientConnectionMultiplexor createConnection(final ConnectionId id, final ClientOptions options, final StateListener stateListener) {
+        return new ClientConnectionMultiplexor(new ClientConnection(id, options, stateListener));
     }
 
     /**

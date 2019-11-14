@@ -16,14 +16,19 @@
  */
 package org.apache.camel.component.iec60870.client;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 import io.netty.channel.ChannelHandlerContext;
+
 import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.DiscardAckModule;
 import org.apache.camel.component.iec60870.ObjectAddress;
@@ -39,6 +44,7 @@ import org.eclipse.oneofour.client.data.AbstractDataProcessor;
 import org.eclipse.oneofour.client.data.DataHandler;
 import org.eclipse.oneofour.client.data.DataModule;
 import org.eclipse.oneofour.client.data.DataModuleContext;
+import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +56,8 @@ public class ClientConnection {
     public interface ValueListener {
         void update(ObjectAddress address, Value<?> value);
     }
+
+    private final StateListener externalStateListener;
 
     private final DataHandler dataHandler = new AbstractDataProcessor() {
 
@@ -95,9 +103,10 @@ public class ClientConnection {
 
     private AutoConnectClient client;
 
-    public ClientConnection(final ConnectionId connectionId, final ClientOptions options) {
+    public ClientConnection(final ConnectionId connectionId, final ClientOptions options, final StateListener stateListener) {
         this.connectionId = connectionId;
         this.options = options;
+        this.externalStateListener = stateListener;
     }
 
     public void start() {
@@ -115,15 +124,14 @@ public class ClientConnection {
 
         final CountDownLatch latch = new CountDownLatch(1);
 
-        this.client = new AutoConnectClient(server.getKey(), server.getValue(), this.options.getProtocolOptions(), factory, (final State state, final Throwable e) -> {
-            if (state == State.DISCONNECTED) {
+        StateListener multiServerStateListener = (final State state, final Throwable e) -> {
+            if (state.equals(AutoConnectClient.State.DISCONNECTED)) {
                 LOG.info("Close disconnected client. Restart in 10 s.");
                 client.close();
 
                 try {
-                    Thread.sleep(10_000);
+                    Thread.sleep(this.options.getConnectionTimeout());
                 } catch (InterruptedException ex) {
-                    // ignore
                 }
 
                 start();
@@ -132,7 +140,16 @@ public class ClientConnection {
             if (state == State.CONNECTED) {
                 latch.countDown();
             }
-        });
+        };
+
+        final List<StateListener> stateListeners = new ArrayList<>();
+        stateListeners.add(multiServerStateListener);
+
+        if (Objects.nonNull(externalStateListener)) {
+          stateListeners.add(externalStateListener);
+        }
+
+        this.client = new AutoConnectClient(server.getKey(), server.getValue(), this.options.getProtocolOptions(), factory, stateListeners);
         try {
             latch.await(this.options.getConnectionTimeout(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {

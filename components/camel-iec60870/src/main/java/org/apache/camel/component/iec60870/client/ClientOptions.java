@@ -23,6 +23,7 @@ import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.eclipse.oneofour.ProtocolOptions;
 import org.eclipse.oneofour.client.data.DataModuleOptions;
+import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
 
 @UriParams
 public class ClientOptions extends BaseOptions<ClientOptions> {
@@ -32,6 +33,12 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
      */
     @UriParam(javaType = "org.eclipse.oneofour.client.data.DataModuleOptions")
     private DataModuleOptions.Builder dataModuleOptions;
+
+    /**
+     * State listener
+     */
+    @UriParam(javaType = "org.eclipse.oneofour.client.AutoConnectClient.StateListener")
+    private StateListener stateListener;
 
     // dummy for doc generation
     /**
@@ -79,6 +86,10 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
         return this.dataModuleOptions.build();
     }
 
+    public StateListener getStateListener() {
+        return stateListener;
+    }
+
     @Override
     public ClientOptions copy() {
         return new ClientOptions(this);
@@ -109,5 +120,9 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public void setStateListener(StateListener stateListener) {
+        this.stateListener = stateListener;
     }
 }

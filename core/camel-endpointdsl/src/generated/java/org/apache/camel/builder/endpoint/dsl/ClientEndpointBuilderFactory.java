@@ -96,6 +96,30 @@ public interface ClientEndpointBuilderFactory {
             return this;
         }
         /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointConsumerBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointConsumerBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
          * Allows for bridging the consumer to the Camel routing Error Handler,
          * which mean any exceptions occurred while the consumer is trying to
          * pickup incoming messages, or the likes, will now be processed as a
@@ -664,6 +688,30 @@ public interface ClientEndpointBuilderFactory {
             return this;
         }
         /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointProducerBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointProducerBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
          * Whether the producer should be started lazy (on the first message).
          * By starting lazy you can use this to allow CamelContext and routes to
          * startup in situations where a producer may otherwise fail during
@@ -1173,6 +1221,30 @@ public interface ClientEndpointBuilderFactory {
          */
         default ClientEndpointBuilder protocolOptions(String protocolOptions) {
             doSetProperty("protocolOptions", protocolOptions);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.oneofour.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
             return this;
         }
         /**
