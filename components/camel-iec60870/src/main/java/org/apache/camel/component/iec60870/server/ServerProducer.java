@@ -21,21 +21,22 @@ import org.apache.camel.support.DefaultProducer;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.CauseOfTransmission;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
 
+import org.apache.camel.component.iec60870.ObjectAddress;
+
 public class ServerProducer extends DefaultProducer {
 
-    private final ServerEndpoint endpoint;
     private final ServerInstance server;
 
     public ServerProducer(final ServerEndpoint endpoint, final ServerInstance server) {
         super(endpoint);
-        this.endpoint = endpoint;
         this.server = server;
     }
 
     @Override
     public void process(final Exchange exchange) throws Exception {
         final Value<?> value = mapToValue(exchange);
-        this.server.notifyValue(CauseOfTransmission.SPONTANEOUS, this.endpoint.getAddress(), value);
+        final ObjectAddress objectAddress = ObjectAddress.valueOf(exchange.getIn().getHeader("objectAddress", String.class));
+        this.server.notifyValue(CauseOfTransmission.SPONTANEOUS, objectAddress, value);
     }
 
     private Value<?> mapToValue(final Exchange exchange) {

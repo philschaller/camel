@@ -41,8 +41,8 @@ public class ServerEndpoint extends AbstractIecEndpoint<ServerConnectionMultiple
     @UriParam(defaultValue = "true")
     private boolean filterNonExecute = true;
 
-    public ServerEndpoint(final String uri, final DefaultComponent component, final ServerConnectionMultiplexor connection, final ObjectAddress address) {
-        super(uri, component, requireNonNull(connection), address);
+    public ServerEndpoint(final String uri, final DefaultComponent component, final ServerConnectionMultiplexor connection) {
+        super(uri, component, requireNonNull(connection));
     }
 
     @Override
