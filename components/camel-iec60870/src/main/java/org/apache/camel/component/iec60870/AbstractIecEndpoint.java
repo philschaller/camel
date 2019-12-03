@@ -33,11 +33,11 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractIecEndpoint<T extends AbstractConnectionMultiplexor> extends DefaultEndpoint {
 
     /**
-     * The object information address
+     * The server URIs, comma separated
      */
     @UriPath(name = "uriPath")
     @Metadata(required = true)
-    private final ObjectAddress address;
+    private final String serverUris;
 
     // dummy for doc generation
     /**
@@ -71,11 +71,10 @@ public abstract class AbstractIecEndpoint<T extends AbstractConnectionMultiplexo
 
     private final AtomicReference<Handle> connectionHandle = new AtomicReference<>();
 
-    public AbstractIecEndpoint(final String uri, final DefaultComponent component, final T connection, final ObjectAddress address) {
+    public AbstractIecEndpoint(final String uri, final DefaultComponent component, final T connection) {
         super(uri, component);
-
+        this.serverUris = uri;
         this.connection = requireNonNull(connection);
-        this.address = requireNonNull(address);
     }
 
     public ClientOptions getConnectionOptions() {
@@ -99,7 +98,7 @@ public abstract class AbstractIecEndpoint<T extends AbstractConnectionMultiplexo
     }
 
     public ObjectAddress getAddress() {
-        return this.address;
+        return null;
     }
 
     @Override

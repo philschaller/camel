@@ -23,7 +23,6 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.component.iec60870.AbstractIecComponent;
 import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.Constants;
-import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
 import org.eclipse.oneofour.client.data.DataModuleOptions;
 import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
@@ -47,8 +46,8 @@ public class ClientComponent extends AbstractIecComponent<ClientConnectionMultip
     }
 
     @Override
-    protected Endpoint createEndpoint(final String uri, final ClientConnectionMultiplexor connection, final ObjectAddress address) {
-        return new ClientEndpoint(uri, this, connection, address);
+    protected Endpoint createEndpoint(final String uri, final ClientConnectionMultiplexor connection) {
+        return new ClientEndpoint(uri, this, connection);
     }
 
     @Override

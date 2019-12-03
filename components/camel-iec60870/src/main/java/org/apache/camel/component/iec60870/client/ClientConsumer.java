@@ -44,12 +44,12 @@ public class ClientConsumer extends DefaultConsumer {
     @Override
     protected void doStart() throws Exception {
         super.doStart();
-        this.connection.setListener(this.endpoint.getAddress(), this::updateValue);
+        this.connection.setListener(this::updateValue);
     }
 
     @Override
     protected void doStop() throws Exception {
-        this.connection.setListener(this.endpoint.getAddress(), null);
+        this.connection.setListener(null);
         super.doStop();
     }
 
@@ -57,14 +57,14 @@ public class ClientConsumer extends DefaultConsumer {
         // Note: we hold the sync lock for the connection
         try {
             final Exchange exchange = getEndpoint().createExchange();
-            exchange.setIn(mapMessage(value));
+            exchange.setIn(mapMessage(address, value));
             getProcessor().process(exchange);
         } catch (final Exception e) {
             LOG.debug("Failed to process message", e);
         }
     }
 
-    private Message mapMessage(final Value<?> value) {
+    private Message mapMessage(final ObjectAddress address, final Value<?> value) {
         final DefaultMessage message = new DefaultMessage(this.endpoint.getCamelContext());
 
         message.setBody(value);
@@ -73,6 +73,7 @@ public class ClientConsumer extends DefaultConsumer {
         message.setHeader("timestamp", Instant.ofEpochMilli(value.getTimestamp()));
         message.setHeader("quality", value.getQualityInformation());
         message.setHeader("overflow", value.isOverflow());
+        message.setHeader("objectAddress", address);
 
         return message;
     }

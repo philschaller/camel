@@ -94,8 +94,7 @@ public class ClientConnection {
         }
     };
 
-    private final Map<ObjectAddress, Value<?>> lastValue = new HashMap<>();
-    private final Map<ObjectAddress, ValueListener> listeners = new HashMap<>();
+    private ValueListener listener;
 
     private final ConnectionId connectionId;
     private Iterator<Map.Entry<String, Integer>> serverIterator;
@@ -162,23 +161,13 @@ public class ClientConnection {
     }
 
     protected synchronized void handleData(final ObjectAddress address, final Value<?> value) {
-        this.lastValue.put(address, value);
-        final ValueListener listener = this.listeners.get(address);
         if (listener != null) {
             listener.update(address, value);
         }
     }
 
-    public synchronized void setListener(final ObjectAddress address, final ValueListener listener) {
-        if (listener != null) {
-            this.listeners.put(address, listener);
-            final Value<?> last = this.lastValue.get(address);
-            if (last != null) {
-                listener.update(address, last);
-            }
-        } else {
-            this.listeners.remove(address);
-        }
+    public synchronized void setListener(final ValueListener listener) {
+        this.listener = listener;
     }
 
     public boolean executeCommand(final Object command) {

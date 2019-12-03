@@ -79,12 +79,11 @@ public abstract class AbstractIecComponent<T1, T2 extends BaseOptions<T2>> exten
         LOG.info("Create endpoint - uri: {}, remaining: {}, parameters: {}", uri, remaining, parameters);
 
         final T1 connection = lookupConnection(uri, parameters);
-        final ObjectAddress address = parseAddress(uri);
 
-        return createEndpoint(uri, connection, address);
+        return createEndpoint(uri, connection);
     }
 
-    protected abstract Endpoint createEndpoint(String uri, T1 connection, ObjectAddress address);
+    protected abstract Endpoint createEndpoint(String uri, T1 connection);
 
     protected T2 parseOptions(final ConnectionId id, final Map<String, Object> parameters) throws Exception {
 

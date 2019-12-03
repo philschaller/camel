@@ -34,8 +34,8 @@ import static java.util.Objects.requireNonNull;
     title = "IEC 60870 Client", category = {Category.IOT})
 public class ClientEndpoint extends AbstractIecEndpoint<ClientConnectionMultiplexor> {
 
-    public ClientEndpoint(final String uri, final DefaultComponent component, final ClientConnectionMultiplexor connection, final ObjectAddress address) {
-        super(uri, component, requireNonNull(connection), address);
+    public ClientEndpoint(final String uri, final DefaultComponent component, final ClientConnectionMultiplexor connection) {
+        super(uri, component, requireNonNull(connection));
     }
 
     @Override

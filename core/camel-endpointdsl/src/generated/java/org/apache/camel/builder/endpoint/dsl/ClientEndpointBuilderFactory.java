@@ -1689,7 +1689,7 @@ public interface ClientEndpointBuilderFactory {
          * Syntax: <code>iec60870-client:uriPath</code>
          * 
          * Path parameter: uriPath (required)
-         * The object information address
+         * The server URIs, comma separated
          * 
          * @param path uriPath
          */
@@ -1708,7 +1708,7 @@ public interface ClientEndpointBuilderFactory {
          * Syntax: <code>iec60870-client:uriPath</code>
          * 
          * Path parameter: uriPath (required)
-         * The object information address
+         * The server URIs, comma separated
          * 
          * @param componentName to use a custom component name for the endpoint
          * instead of the default name

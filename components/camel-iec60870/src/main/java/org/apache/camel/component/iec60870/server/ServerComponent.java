@@ -58,8 +58,8 @@ public class ServerComponent extends AbstractIecComponent<ServerConnectionMultip
     }
 
     @Override
-    protected Endpoint createEndpoint(final String uri, final ServerConnectionMultiplexor connection, final ObjectAddress address) {
-        return new ServerEndpoint(uri, this, connection, address);
+    protected Endpoint createEndpoint(final String uri, final ServerConnectionMultiplexor connection) {
+        return new ServerEndpoint(uri, this, connection);
     }
 
     /**

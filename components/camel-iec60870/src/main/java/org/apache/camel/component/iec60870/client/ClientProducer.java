@@ -21,25 +21,14 @@ import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.support.DefaultProducer;
 import org.eclipse.oneofour.asdu.ASDUHeader;
 import org.eclipse.oneofour.asdu.message.AbstractInformationObjectMessage;
-import org.eclipse.oneofour.asdu.message.SetPointCommandScaledValue;
-import org.eclipse.oneofour.asdu.message.SetPointCommandShortFloatingPoint;
-import org.eclipse.oneofour.asdu.message.SingleCommand;
-import org.eclipse.oneofour.asdu.types.CauseOfTransmission;
-import org.eclipse.oneofour.asdu.types.InformationObjectAddress;
 
 public class ClientProducer extends DefaultProducer {
 
     private final ClientConnection connection;
-    private final ASDUHeader header;
-    private final InformationObjectAddress address;
 
     public ClientProducer(final ClientEndpoint endpoint, final ClientConnection connection) {
         super(endpoint);
         this.connection = connection;
-
-        final ObjectAddress address = endpoint.getAddress();
-        this.header = new ASDUHeader(CauseOfTransmission.ACTIVATED, address.getASDUAddress());
-        this.address = address.getInformationObjectAddress();
     }
 
     @Override
@@ -60,35 +49,6 @@ public class ClientProducer extends DefaultProducer {
             return body;
         }
 
-        if (body instanceof Float || body instanceof Double) {
-            return makeFloatCommand(((Number)body).floatValue());
-        }
-
-        if (body instanceof Boolean) {
-            return makeBooleanCommand((Boolean)body);
-        }
-
-        if (body instanceof Integer || body instanceof Short || body instanceof Byte || body instanceof Long) {
-            return makeIntCommand(((Number)body).longValue());
-        }
-
         throw new IllegalArgumentException("Unable to map value to a command: " + body);
-    }
-
-    private Object makeBooleanCommand(final Boolean state) {
-        return new SingleCommand(this.header, this.address, state);
-    }
-
-    private Object makeIntCommand(final long value) {
-
-        if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
-            throw new IllegalArgumentException(String.format("Integer value is outside of range - min: %s, max: %s", Short.MIN_VALUE, Short.MAX_VALUE));
-        }
-
-        return new SetPointCommandScaledValue(this.header, this.address, (short)value);
-    }
-
-    private Object makeFloatCommand(final float value) {
-        return new SetPointCommandShortFloatingPoint(this.header, this.address, value);
     }
 }
