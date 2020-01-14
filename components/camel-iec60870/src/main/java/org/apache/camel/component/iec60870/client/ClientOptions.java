@@ -21,8 +21,8 @@ import java.util.Objects;
 import org.apache.camel.component.iec60870.BaseOptions;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
-import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions;
+import org.eclipse.oneofour.ProtocolOptions;
+import org.eclipse.oneofour.client.data.DataModuleOptions;
 
 @UriParams
 public class ClientOptions extends BaseOptions<ClientOptions> {
@@ -30,7 +30,7 @@ public class ClientOptions extends BaseOptions<ClientOptions> {
     /**
      * Data module options
      */
-    @UriParam(javaType = "org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions")
+    @UriParam(javaType = "org.eclipse.oneofour.client.data.DataModuleOptions")
     private DataModuleOptions.Builder dataModuleOptions;
 
     // dummy for doc generation

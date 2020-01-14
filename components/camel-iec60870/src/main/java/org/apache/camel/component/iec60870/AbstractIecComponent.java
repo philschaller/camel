@@ -24,7 +24,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.iec60870.client.ClientOptions;
 import org.apache.camel.support.DefaultComponent;
-import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
+import org.eclipse.oneofour.ProtocolOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

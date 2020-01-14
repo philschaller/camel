@@ -28,8 +28,8 @@ import org.apache.camel.component.mock.AssertionClause;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.AvailablePortFinder;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.WriteModel.Request;
+import org.eclipse.oneofour.asdu.types.Value;
+import org.eclipse.oneofour.server.data.model.WriteModel.Request;
 import org.junit.Test;
 
 public class ConnectionTest extends CamelTestSupport {

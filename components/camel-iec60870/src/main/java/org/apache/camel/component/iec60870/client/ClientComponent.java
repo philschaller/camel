@@ -25,7 +25,7 @@ import org.apache.camel.component.iec60870.ConnectionId;
 import org.apache.camel.component.iec60870.Constants;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.spi.annotations.Component;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions;
+import org.eclipse.oneofour.client.data.DataModuleOptions;
 
 @Component("iec60870-client")
 public class ClientComponent extends AbstractIecComponent<ClientConnectionMultiplexor, ClientOptions> {

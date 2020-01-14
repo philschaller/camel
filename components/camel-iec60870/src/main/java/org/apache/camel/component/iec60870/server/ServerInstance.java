@@ -27,17 +27,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.component.iec60870.DiscardAckModule;
 import org.apache.camel.component.iec60870.ObjectAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
-import org.eclipse.neoscada.protocol.iec60870.server.Server;
-import org.eclipse.neoscada.protocol.iec60870.server.data.DataModule;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.BackgroundModel;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.ChangeDataModel;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.ChangeModel;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.WriteModel;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.WriteModel.Action;
-import org.eclipse.neoscada.protocol.iec60870.server.data.model.WriteModel.Request;
+import org.eclipse.oneofour.asdu.types.ASDUAddress;
+import org.eclipse.oneofour.asdu.types.CauseOfTransmission;
+import org.eclipse.oneofour.asdu.types.InformationObjectAddress;
+import org.eclipse.oneofour.asdu.types.Value;
+import org.eclipse.oneofour.server.Server;
+import org.eclipse.oneofour.server.data.DataModule;
+import org.eclipse.oneofour.server.data.model.BackgroundModel;
+import org.eclipse.oneofour.server.data.model.ChangeDataModel;
+import org.eclipse.oneofour.server.data.model.ChangeModel;
+import org.eclipse.oneofour.server.data.model.WriteModel;
+import org.eclipse.oneofour.server.data.model.WriteModel.Action;
+import org.eclipse.oneofour.server.data.model.WriteModel.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,19 +68,8 @@ public class ServerInstance {
         @Override
         protected WriteModel createWriteModel() {
             return new WriteModel() {
-
                 @Override
-                public Action prepareCommand(final Request<Boolean> request) {
-                    return prepareAction(request);
-                }
-
-                @Override
-                public Action prepareSetpointFloat(final Request<Float> request) {
-                    return prepareAction(request);
-                }
-
-                @Override
-                public Action prepareSetpointScaled(final Request<Short> request) {
+                public Action prepareWriteValue ( Request<?> request ) {
                     return prepareAction(request);
                 }
             };
@@ -96,8 +86,8 @@ public class ServerInstance {
         }
 
         @Override
-        public void notifyDataChange(final ASDUAddress asduAddress, final InformationObjectAddress informationObjectAddress, final Value<?> value, final boolean notify) {
-            super.notifyDataChange(asduAddress, informationObjectAddress, value, notify);
+        public void notifyDataChange(final CauseOfTransmission causeOfTransmission, final ASDUAddress asduAddress, final InformationObjectAddress informationObjectAddress, final Value<?> value, final boolean notify) {
+            super.notifyDataChange(causeOfTransmission, asduAddress, informationObjectAddress, value, notify);
         }
     }
 
@@ -181,10 +171,10 @@ public class ServerInstance {
         }
     }
 
-    public void notifyValue(final ObjectAddress address, final Value<?> value) {
+    public void notifyValue(final CauseOfTransmission causeOfTransmission, final ObjectAddress address, final Value<?> value) {
         Objects.requireNonNull(address);
         Objects.requireNonNull(value);
 
-        this.dataModel.notifyDataChange(address.getASDUAddress(), address.getInformationObjectAddress(), value, true);
+        this.dataModel.notifyDataChange(causeOfTransmission, address.getASDUAddress(), address.getInformationObjectAddress(), value, true);
     }
 }

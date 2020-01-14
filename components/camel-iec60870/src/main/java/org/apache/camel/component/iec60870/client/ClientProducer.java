@@ -19,13 +19,13 @@ package org.apache.camel.component.iec60870.client;
 import org.apache.camel.Exchange;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.support.DefaultProducer;
-import org.eclipse.neoscada.protocol.iec60870.asdu.ASDUHeader;
-import org.eclipse.neoscada.protocol.iec60870.asdu.message.AbstractInformationObjectMessage;
-import org.eclipse.neoscada.protocol.iec60870.asdu.message.SetPointCommandScaledValue;
-import org.eclipse.neoscada.protocol.iec60870.asdu.message.SetPointCommandShortFloatingPoint;
-import org.eclipse.neoscada.protocol.iec60870.asdu.message.SingleCommand;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.CauseOfTransmission;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
+import org.eclipse.oneofour.asdu.ASDUHeader;
+import org.eclipse.oneofour.asdu.message.AbstractInformationObjectMessage;
+import org.eclipse.oneofour.asdu.message.SetPointCommandScaledValue;
+import org.eclipse.oneofour.asdu.message.SetPointCommandShortFloatingPoint;
+import org.eclipse.oneofour.asdu.message.SingleCommand;
+import org.eclipse.oneofour.asdu.types.CauseOfTransmission;
+import org.eclipse.oneofour.asdu.types.InformationObjectAddress;
 
 public class ClientProducer extends DefaultProducer {
 

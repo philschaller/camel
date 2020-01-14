@@ -25,18 +25,18 @@ import java.util.concurrent.TimeUnit;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.camel.component.iec60870.DiscardAckModule;
 import org.apache.camel.component.iec60870.ObjectAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.QualifierOfInterrogation;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
-import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient;
-import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.ModulesFactory;
-import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.State;
-import org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener;
-import org.eclipse.neoscada.protocol.iec60870.client.data.AbstractDataProcessor;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataHandler;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataModule;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleContext;
+import org.eclipse.oneofour.asdu.types.ASDUAddress;
+import org.eclipse.oneofour.asdu.types.InformationObjectAddress;
+import org.eclipse.oneofour.asdu.types.QualifierOfInterrogation;
+import org.eclipse.oneofour.asdu.types.Value;
+import org.eclipse.oneofour.client.AutoConnectClient;
+import org.eclipse.oneofour.client.AutoConnectClient.ModulesFactory;
+import org.eclipse.oneofour.client.AutoConnectClient.State;
+import org.eclipse.oneofour.client.AutoConnectClient.StateListener;
+import org.eclipse.oneofour.client.data.AbstractDataProcessor;
+import org.eclipse.oneofour.client.data.DataHandler;
+import org.eclipse.oneofour.client.data.DataModule;
+import org.eclipse.oneofour.client.data.DataModuleContext;
 
 public class ClientConnection {
 
@@ -73,6 +73,10 @@ public class ClientConnection {
         @Override
         protected void fireEntry(final ASDUAddress asduAddress, final InformationObjectAddress address, final Value<?> value) {
             ClientConnection.this.handleData(ObjectAddress.valueOf(asduAddress, address), value);
+        }
+
+        @Override
+        public void requestStartData() {
         }
     };
 

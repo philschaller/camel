@@ -21,9 +21,9 @@ import java.util.Set;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.eclipse.neoscada.protocol.iec60870.asdu.message.AbstractMessage;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.Cause;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.StandardCause;
+import org.eclipse.oneofour.asdu.message.AbstractMessage;
+import org.eclipse.oneofour.asdu.types.Cause;
+import org.eclipse.oneofour.asdu.types.StandardCause;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

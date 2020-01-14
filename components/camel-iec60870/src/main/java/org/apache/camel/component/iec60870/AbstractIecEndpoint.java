@@ -25,8 +25,8 @@ import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriPath;
 import org.apache.camel.support.DefaultComponent;
 import org.apache.camel.support.DefaultEndpoint;
-import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
-import org.eclipse.neoscada.protocol.iec60870.client.data.DataModuleOptions;
+import org.eclipse.oneofour.ProtocolOptions;
+import org.eclipse.oneofour.client.data.DataModuleOptions;
 
 import static java.util.Objects.requireNonNull;
 

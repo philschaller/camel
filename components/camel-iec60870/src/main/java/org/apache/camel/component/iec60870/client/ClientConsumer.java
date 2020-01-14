@@ -24,7 +24,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.apache.camel.support.DefaultConsumer;
 import org.apache.camel.support.DefaultMessage;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
+import org.eclipse.oneofour.asdu.types.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

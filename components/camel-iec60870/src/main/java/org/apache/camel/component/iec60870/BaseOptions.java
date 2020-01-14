@@ -21,10 +21,10 @@ import java.util.TimeZone;
 
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
-import org.eclipse.neoscada.protocol.iec60870.ASDUAddressType;
-import org.eclipse.neoscada.protocol.iec60870.CauseOfTransmissionType;
-import org.eclipse.neoscada.protocol.iec60870.InformationObjectAddressType;
-import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
+import org.eclipse.oneofour.ASDUAddressType;
+import org.eclipse.oneofour.CauseOfTransmissionType;
+import org.eclipse.oneofour.InformationObjectAddressType;
+import org.eclipse.oneofour.ProtocolOptions;
 
 @UriParams
 public abstract class BaseOptions<T extends BaseOptions<T>> {
@@ -32,7 +32,7 @@ public abstract class BaseOptions<T extends BaseOptions<T>> {
     /**
      * Protocol options
      */
-    @UriParam(javaType = "org.eclipse.neoscada.protocol.iec60870.ProtocolOptions")
+    @UriParam(javaType = "org.eclipse.oneofour.ProtocolOptions")
     private ProtocolOptions.Builder protocolOptions;
 
     // dummy for doc generation

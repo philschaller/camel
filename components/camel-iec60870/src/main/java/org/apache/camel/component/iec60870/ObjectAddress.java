@@ -19,8 +19,8 @@ package org.apache.camel.component.iec60870;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
-import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
+import org.eclipse.oneofour.asdu.types.ASDUAddress;
+import org.eclipse.oneofour.asdu.types.InformationObjectAddress;
 
 public class ObjectAddress {
     int[] address;

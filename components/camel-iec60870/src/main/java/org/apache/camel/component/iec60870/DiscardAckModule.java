@@ -17,12 +17,12 @@
 package org.apache.camel.component.iec60870;
 
 import io.netty.channel.socket.SocketChannel;
-import org.eclipse.neoscada.protocol.iec60870.apci.MessageChannel;
-import org.eclipse.neoscada.protocol.iec60870.asdu.MessageManager;
-import org.eclipse.neoscada.protocol.iec60870.client.Client;
-import org.eclipse.neoscada.protocol.iec60870.client.ClientModule;
-import org.eclipse.neoscada.protocol.iec60870.server.Server;
-import org.eclipse.neoscada.protocol.iec60870.server.ServerModule;
+import org.eclipse.oneofour.apci.MessageChannel;
+import org.eclipse.oneofour.asdu.MessageManager;
+import org.eclipse.oneofour.client.Client;
+import org.eclipse.oneofour.client.ClientModule;
+import org.eclipse.oneofour.server.Server;
+import org.eclipse.oneofour.server.ServerModule;
 
 public class DiscardAckModule implements ClientModule, ServerModule {
     @Override
@@ -40,5 +40,9 @@ public class DiscardAckModule implements ClientModule, ServerModule {
 
     @Override
     public void initializeServer(final Server server, final MessageManager manager) {
+    }
+
+    @Override
+    public void requestStartData() {
     }
 }

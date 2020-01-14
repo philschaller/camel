@@ -21,8 +21,8 @@ import java.util.Objects;
 import org.apache.camel.component.iec60870.BaseOptions;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
-import org.eclipse.neoscada.protocol.iec60870.ProtocolOptions;
-import org.eclipse.neoscada.protocol.iec60870.server.data.DataModuleOptions;
+import org.eclipse.oneofour.ProtocolOptions;
+import org.eclipse.oneofour.server.data.DataModuleOptions;
 
 @UriParams
 public class ServerOptions extends BaseOptions<ServerOptions> {
