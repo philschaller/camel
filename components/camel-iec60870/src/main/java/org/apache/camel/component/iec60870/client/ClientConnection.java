@@ -74,6 +74,10 @@ public class ClientConnection {
         protected void fireEntry(final ASDUAddress asduAddress, final InformationObjectAddress address, final Value<?> value) {
             ClientConnection.this.handleData(ObjectAddress.valueOf(asduAddress, address), value);
         }
+
+        @Override
+        public void requestStartData() {
+        }
     };
 
     private final Map<ObjectAddress, Value<?>> lastValue = new HashMap<>();
