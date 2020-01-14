@@ -42,34 +42,40 @@
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.neoscada.protocol.iec60870</artifactId>
             <version>${neoscada-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.neoscada.protocol.iec60870.client</artifactId>
             <version>${neoscada-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.neoscada.protocol.iec60870.client.data</artifactId>
             <version>${neoscada-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.neoscada.protocol.iec60870.server</artifactId>
             <version>${neoscada-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.neoscada.protocol.iec60870.server.data</artifactId>
             <version>${neoscada-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.neoscada.utils</groupId>
+            <groupId>org.eclipse.neoscada</groupId>
             <artifactId>org.eclipse.scada.utils</artifactId>
             <version>${neoscada-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${google-guava-version}</version>
         </dependency>
 
         <dependency>

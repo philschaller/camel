@@ -18,6 +18,7 @@ package org.apache.camel.component.iec60870.server;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.support.DefaultProducer;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.CauseOfTransmission;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
 
 public class ServerProducer extends DefaultProducer {
@@ -34,7 +35,7 @@ public class ServerProducer extends DefaultProducer {
     @Override
     public void process(final Exchange exchange) throws Exception {
         final Value<?> value = mapToValue(exchange);
-        this.server.notifyValue(this.endpoint.getAddress(), value);
+        this.server.notifyValue(CauseOfTransmission.SPONTANEOUS, this.endpoint.getAddress(), value);
     }
 
     private Value<?> mapToValue(final Exchange exchange) {
