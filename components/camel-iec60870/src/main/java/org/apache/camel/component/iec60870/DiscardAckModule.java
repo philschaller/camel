@@ -41,4 +41,8 @@ public class DiscardAckModule implements ClientModule, ServerModule {
     @Override
     public void initializeServer(final Server server, final MessageManager manager) {
     }
+
+    @Override
+    public void requestStartData() {
+    }
 }

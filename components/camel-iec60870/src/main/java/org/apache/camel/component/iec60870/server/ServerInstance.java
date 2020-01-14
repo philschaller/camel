@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.camel.component.iec60870.DiscardAckModule;
 import org.apache.camel.component.iec60870.ObjectAddress;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.CauseOfTransmission;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
 import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
 import org.eclipse.neoscada.protocol.iec60870.server.Server;
@@ -67,19 +68,8 @@ public class ServerInstance {
         @Override
         protected WriteModel createWriteModel() {
             return new WriteModel() {
-
                 @Override
-                public Action prepareCommand(final Request<Boolean> request) {
-                    return prepareAction(request);
-                }
-
-                @Override
-                public Action prepareSetpointFloat(final Request<Float> request) {
-                    return prepareAction(request);
-                }
-
-                @Override
-                public Action prepareSetpointScaled(final Request<Short> request) {
+                public Action prepareWriteValue ( Request<?> request ) {
                     return prepareAction(request);
                 }
             };
@@ -96,8 +86,8 @@ public class ServerInstance {
         }
 
         @Override
-        public void notifyDataChange(final ASDUAddress asduAddress, final InformationObjectAddress informationObjectAddress, final Value<?> value, final boolean notify) {
-            super.notifyDataChange(asduAddress, informationObjectAddress, value, notify);
+        public void notifyDataChange(final CauseOfTransmission causeOfTransmission, final ASDUAddress asduAddress, final InformationObjectAddress informationObjectAddress, final Value<?> value, final boolean notify) {
+            super.notifyDataChange(causeOfTransmission, asduAddress, informationObjectAddress, value, notify);
         }
     }
 
@@ -181,10 +171,10 @@ public class ServerInstance {
         }
     }
 
-    public void notifyValue(final ObjectAddress address, final Value<?> value) {
+    public void notifyValue(final CauseOfTransmission causeOfTransmission, final ObjectAddress address, final Value<?> value) {
         Objects.requireNonNull(address);
         Objects.requireNonNull(value);
 
-        this.dataModel.notifyDataChange(address.getASDUAddress(), address.getInformationObjectAddress(), value, true);
+        this.dataModel.notifyDataChange(causeOfTransmission, address.getASDUAddress(), address.getInformationObjectAddress(), value, true);
     }
 }
