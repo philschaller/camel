@@ -53,6 +53,8 @@ public class ClientEndpointConfigurer extends PropertyConfigurerSupport implemen
         case "maxUnacknowledged": target.getConnectionOptions().setMaxUnacknowledged(property(camelContext, short.class, value)); return true;
         case "protocoloptions":
         case "protocolOptions": target.getConnectionOptions().setProtocolOptions(property(camelContext, org.eclipse.neoscada.protocol.iec60870.ProtocolOptions.class, value)); return true;
+        case "statelistener":
+        case "stateListener": target.getConnectionOptions().setStateListener(property(camelContext, org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener.class, value)); return true;
         case "synchronous": target.setSynchronous(property(camelContext, boolean.class, value)); return true;
         case "timezone":
         case "timeZone": target.getConnectionOptions().setTimeZone(property(camelContext, java.util.TimeZone.class, value)); return true;
@@ -83,6 +85,7 @@ public class ClientEndpointConfigurer extends PropertyConfigurerSupport implemen
         answer.put("lazyStartProducer", boolean.class);
         answer.put("maxUnacknowledged", short.class);
         answer.put("protocolOptions", org.eclipse.neoscada.protocol.iec60870.ProtocolOptions.class);
+        answer.put("stateListener", org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient.StateListener.class);
         answer.put("synchronous", boolean.class);
         answer.put("timeZone", java.util.TimeZone.class);
         answer.put("timeout1", int.class);
@@ -129,6 +132,8 @@ public class ClientEndpointConfigurer extends PropertyConfigurerSupport implemen
         case "maxUnacknowledged": return target.getConnectionOptions().getMaxUnacknowledged();
         case "protocoloptions":
         case "protocolOptions": return target.getConnectionOptions().getProtocolOptions();
+        case "statelistener":
+        case "stateListener": return target.getConnectionOptions().getStateListener();
         case "synchronous": return target.isSynchronous();
         case "timezone":
         case "timeZone": return target.getConnectionOptions().getTimeZone();

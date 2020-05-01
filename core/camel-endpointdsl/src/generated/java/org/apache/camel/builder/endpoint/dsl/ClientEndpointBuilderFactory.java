@@ -99,6 +99,30 @@ public interface ClientEndpointBuilderFactory {
             return this;
         }
         /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointConsumerBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointConsumerBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
          * Allows for bridging the consumer to the Camel routing Error Handler,
          * which mean any exceptions occurred while the consumer is trying to
          * pickup incoming messages, or the likes, will now be processed as a
@@ -671,6 +695,30 @@ public interface ClientEndpointBuilderFactory {
             return this;
         }
         /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointProducerBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointProducerBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
          * Whether the producer should be started lazy (on the first message).
          * By starting lazy you can use this to allow CamelContext and routes to
          * startup in situations where a producer may otherwise fail during
@@ -1187,6 +1235,30 @@ public interface ClientEndpointBuilderFactory {
             return this;
         }
         /**
+         * State listener.
+         * 
+         * The option is a:
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointBuilder stateListener(Object stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
+         * State listener.
+         * 
+         * The option will be converted to a
+         * <code>org.eclipse.neoscada.protocol.iec60870.client.AutoConnectClient$StateListener</code> type.
+         * 
+         * Group: common
+         */
+        default ClientEndpointBuilder stateListener(String stateListener) {
+            doSetProperty("stateListener", stateListener);
+            return this;
+        }
+        /**
          * Parameter W - Acknowledgment window.
          * 
          * The option is a: <code>short</code> type.
@@ -1632,7 +1704,7 @@ public interface ClientEndpointBuilderFactory {
          * Syntax: <code>iec60870-client:uriPath</code>
          * 
          * Path parameter: uriPath (required)
-         * The object information address
+         * The server URIs, comma separated
          */
         default ClientEndpointBuilder iec60870Client(String path) {
             return ClientEndpointBuilderFactory.iec60870Client(path);
@@ -1651,7 +1723,7 @@ public interface ClientEndpointBuilderFactory {
      * Syntax: <code>iec60870-client:uriPath</code>
      * 
      * Path parameter: uriPath (required)
-     * The object information address
+     * The server URIs, comma separated
      */
     static ClientEndpointBuilder iec60870Client(String path) {
         class ClientEndpointBuilderImpl extends AbstractEndpointBuilder implements ClientEndpointBuilder, AdvancedClientEndpointBuilder {
