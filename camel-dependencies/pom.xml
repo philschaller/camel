@@ -439,7 +439,6 @@
     <mvel-version>2.4.7.Final</mvel-version>
     <mybatis-version>3.5.4</mybatis-version>
     <narayana-version>5.10.5.Final</narayana-version>
-    <neoscada-version>0.4.0</neoscada-version>
     <nessus-ipfs-version>1.0.0.Beta4</nessus-ipfs-version>
     <nessus-weka-version>1.0.1</nessus-weka-version>
     <netty-reactive-streams-version>2.0.3</netty-reactive-streams-version>
@@ -454,6 +453,7 @@
     <okclient-version>3.14.7</okclient-version>
     <olingo2-version>2.0.11</olingo2-version>
     <olingo4-version>4.7.1</olingo4-version>
+    <oneofour-version>0.1.0-SNAPSHOT</oneofour-version>
     <openjpa-version>3.1.1</openjpa-version>
     <openstack4j-version>3.0.2</openstack4j-version>
     <opentracing-tracerresolver-version>0.1.8</opentracing-tracerresolver-version>
